@@ -19,7 +19,7 @@ import router from './router'
 import '@/icons' // icon
 
 // 下面是做权限控制相关的
-// import '@/permission' // permission control
+import '@/permission' // permission control
 
 // 全局引入echarts并且挂载到vue原型
 // import echarts from 'echarts'
