@@ -15,6 +15,14 @@ import App from './App'
 import store from './store'
 import router from './router'
 
+// 全局注册filters
+import * as filters from "./filters"; // global filters
+// register global utility filters
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key]);
+});
+
+
 // 全局注册svg-icon
 import '@/icons' // icon
 
@@ -35,6 +43,8 @@ Vue.config.productionTip = false
 // import CustomComponents from '@/components/CustomComponents/index'
 // // 以插件的方式注册进去
 // Vue.use(CustomComponents)
+
+
 
 new Vue({
   el: '#app',
