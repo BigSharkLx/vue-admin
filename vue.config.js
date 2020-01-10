@@ -49,7 +49,7 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
-    },
+    }
     // proxy: {}
   },
   configureWebpack: {
@@ -60,6 +60,9 @@ module.exports = {
       alias: {
         "@": resolve("src")
       }
+    },
+    externals: {
+      BMap: "BMap"
     }
   },
   chainWebpack(config) {
