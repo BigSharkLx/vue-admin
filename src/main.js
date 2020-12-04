@@ -3,6 +3,8 @@ import Vue from 'vue'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
 import ElementUI from 'element-ui'
+// 改造之后的element-ui样式
+import "./styles/element-variables.scss";
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from "element-ui/lib/locale/lang/zh-CN"; // lang i18n
 
@@ -43,7 +45,6 @@ Vue.config.productionTip = false
 // import CustomComponents from '@/components/CustomComponents/index'
 // // 以插件的方式注册进去
 // Vue.use(CustomComponents)
-
 
 
 new Vue({

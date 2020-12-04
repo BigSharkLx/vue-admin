@@ -1,8 +1,8 @@
 <template>
   <div class="at-form-component" :class="configData.className||''">
     <el-input v-model="searchVal" :size="configData.size||''" :placeholder="configData.placeholder||''"
-      v-bind="propAttrs" @keyup.enter.native="handleSearch">
-      <el-button @click="handleSearch" slot="append" icon="el-icon-search"></el-button>
+      v-bind="propAttrs" @change="handleSearch">
+      <el-button size="small" v-if="configData.showSearchIcon" @click="handleSearch" slot="append" icon="el-icon-search"></el-button>
     </el-input>
   </div>
 </template>

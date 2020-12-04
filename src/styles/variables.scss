@@ -1,13 +1,16 @@
+// header
+$appHeaderHeight: 0px;
+
 // sidebar
-$menuText:#bfcbd9;
-$menuActiveText:#409EFF;
-$subMenuActiveText:#f4f4f5; //https://github.com/ElemeFE/element/issues/12951
+$menuText: #bbb;
+$menuActiveText: #33a397;
+$subMenuActiveText: #fff; //https://github.com/ElemeFE/element/issues/12951
 
-$menuBg:#304156;
-$menuHover:#263445;
+$menuBg: #141f29;
+$menuHover: #263445;
 
-$subMenuBg:#1f2d3d;
-$subMenuHover:#001528;
+$subMenuBg: #09121a;
+$subMenuHover: #263445;
 
 $sideBarWidth: 210px;
 
@@ -25,7 +28,7 @@ $sideBarWidth: 210px;
 }
 
 // element-ui 主题颜色
-$primaryColor: #409eff;
+$primaryColor: #33a397;
 $successColor: #67c23a;
 $warningColor: #e6a23c;
 $dangerColor: #f56c6c;
@@ -35,3 +38,16 @@ $borderBase: #dcdfe6;
 $borderLight: #e4e7ed;
 $borderLighter: #ebeef5;
 $borderLightest: #f2f6fc;
+$borderNormal: #efefef80;
+
+// 字体配置
+$fontSize:14px;
+
+//新建广告主lable字体颜色
+$advertisersLabelText:#666666;
+
+// 表单和表头背景颜色
+$formBacgroundColor: rgba(51, 163, 152, 0.07);
+
+//详情页数据回显字体颜色
+$detailTextColor:#999;

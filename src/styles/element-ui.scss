@@ -47,3 +47,26 @@
 .el-range-separator {
   box-sizing: content-box;
 }
+
+
+
+// 全局改造表头
+
+.el-table th {
+  background: $formBacgroundColor;
+  color: rgb(96, 98, 102);
+}
+.el-table--scrollable-x .el-table__body-wrapper {
+  z-index: 2;
+}
+
+.audit_dialog-form--width {
+  .el-select,
+  .el-input {
+    width: 220px;
+  }
+}
+
+.common_cascader_popper .el-cascader-menu__list {
+  max-width: 200px;
+}
