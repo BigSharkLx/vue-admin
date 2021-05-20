@@ -3,11 +3,11 @@ import AvlForm from './avl-form/avl-form'
 const components = {
   AvlTable,
   AvlForm
-};
+}
 
-const install = function (Vue, opts = {}) {
+const install = function(Vue, opts = {}) {
   Object.keys(components).forEach((key) => {
-    Vue.component(key, components[key]);
-  });
-};
-export default install;
+    Vue.component(key, components[key])
+  })
+}
+export default install

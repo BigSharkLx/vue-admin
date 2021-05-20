@@ -104,3 +104,8 @@
     margin-right: 14px;
   }
 }
+//文字两端对齐
+@mixin text-align-justify{
+  text-align: justify;
+  text-align-last: justify;
+}

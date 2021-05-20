@@ -10,6 +10,7 @@ const state = {
 
 const mutations = {
   CHANGE_SETTING: (state, { key, value }) => {
+    // eslint-disable-next-line
     if (state.hasOwnProperty(key)) {
       state[key] = value
     }
@@ -28,4 +29,3 @@ export default {
   mutations,
   actions
 }
-

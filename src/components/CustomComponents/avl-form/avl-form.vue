@@ -1,109 +1,110 @@
 <template>
-  <div class="at-form-search-wrap" v-loading="loading">
-    <div class="at-form--search" v-if="!loading">
+  <div v-loading="loading" class="at-form-search-wrap">
+    <div v-if="!loading" class="at-form--search">
       <component
+        :is="item.type"
         v-for="item in mainConfig"
         :ref="item.propName"
         :key="item.id"
-        v-bind:is="item.type"
+        :config-data="item"
         v-on="$listeners"
-        :configData="item"
         @handleEventChange="handleEventChange"
-      >
-      </component>
+      />
       <!-- 自定义组件 -->
       <!-- 时间选择器 -->
-      <slot name="timePicker"></slot>
+      <slot name="timePicker" />
       <!-- 日期选择器 -->
-      <slot name="datePicker"></slot>
+      <slot name="datePicker" />
       <!-- 日期时间选择器 -->
-      <slot name="dateTimePicker"></slot>
+      <slot name="dateTimePicker" />
       <!-- 默认插槽 -->
-      <slot></slot>
+      <slot />
       <div class="at-form-right-btn">
-        <el-button type="primary" size="small" @click="handleSearchVal"
-          >搜索</el-button
-        >
+        <el-button
+          type="primary"
+          size="small"
+          @click="handleSearchVal"
+        >搜索</el-button>
         <el-button size="small" @click="resetForm">重置</el-button>
       </div>
     </div>
   </div>
 </template>
 <script>
-import AvlRadioGroup from "./searchFormComponents/AvlRadioGroup";
-import AvlCheckboxGroup from "./searchFormComponents/AvlCheckboxGroup";
-import AvlInput from "./searchFormComponents/AvlInput";
-import AvlSelect from "./searchFormComponents/AvlSelect";
-import AvlCascader from "./searchFormComponents/AvlCascader";
-import AvlSwitch from "./searchFormComponents/AvlSwitch";
+import AvlRadioGroup from './searchFormComponents/AvlRadioGroup'
+import AvlCheckboxGroup from './searchFormComponents/AvlCheckboxGroup'
+import AvlInput from './searchFormComponents/AvlInput'
+import AvlSelect from './searchFormComponents/AvlSelect'
+import AvlCascader from './searchFormComponents/AvlCascader'
+import AvlSwitch from './searchFormComponents/AvlSwitch'
 export default {
-  name: "AvlForm",
-  data() {
-    return {
-      allPropsVal: {},
-      mainConfig: [],
-      loading: false,
-    };
+  name: 'AvlForm',
+
+  components: {
+    'avl-radio': AvlRadioGroup,
+    'avl-checkbox': AvlCheckboxGroup,
+    'avl-input': AvlInput,
+    'avl-select': AvlSelect,
+    'avl-cascader': AvlCascader,
+    'avl-switch': AvlSwitch
   },
   props: {
     formConfig: {
       type: Array,
-      required: true,
+      required: true
     },
     formConfigAsync: {
-      type: Function,
+      type: Function
     },
     initPersonForm: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
-
-  components: {
-    "avl-radio": AvlRadioGroup,
-    "avl-checkbox": AvlCheckboxGroup,
-    "avl-input": AvlInput,
-    "avl-select": AvlSelect,
-    "avl-cascader": AvlCascader,
-    "avl-switch": AvlSwitch,
+  data() {
+    return {
+      allPropsVal: {},
+      mainConfig: [],
+      loading: false
+    }
   },
   created() {
     if (!this.initPersonForm) {
-      this.regetData();
+      this.regetData()
     }
   },
   methods: {
     handleSearchVal() {
-      this.$emit("handleFormSearchVal", this.allPropsVal);
+      this.$emit('handleFormSearchVal', this.allPropsVal)
     },
     // 内部接受数据为搜索提供数据来源
     handleEventChange(val) {
       this.allPropsVal = {
         ...this.allPropsVal,
-        ...val,
-      };
+        ...val
+      }
     },
     // 重置数据
     resetForm(formName) {
-      for (let k in this.$refs) {
-        this.$refs[k][0].clearSearVal();
+      for (const k in this.$refs) {
+        this.$refs[k][0].clearSearVal()
       }
-      this.$emit("resetSlot");
-      this.handleSearchVal();
+      this.$emit('resetSlot')
+      this.handleSearchVal()
     },
     regetData(data) {
       if (!this.formConfig.length && this.formConfigAsync) {
-        this.loading = true;
+        this.loading = true
         this.formConfigAsync(data).then((res) => {
-          this.mainConfig = res;
-          this.loading = false;
-        });
+          this.mainConfig = res
+          this.loading = false
+        })
       } else {
-        this.mainConfig = this.formConfig;
+        this.mainConfig = this.formConfig
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss">

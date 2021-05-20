@@ -3,12 +3,12 @@
     <el-select
       v-if="configData.loadMore"
       v-model="searchVal"
+      v-el-select-loadmore="debounce(loadMore)"
       :size="configData.size || ''"
       :placeholder="configData.placeholder || ''"
       v-bind="propAttrs"
-      @change="handleSearch"
       popper-class="form-component-popper"
-      v-el-select-loadmore="debounce(loadMore)"
+      @change="handleSearch"
       @remove-tag="filterMethod('')"
       @clear="filterMethod('')"
     >
@@ -19,15 +19,14 @@
         :value="
           configData.getValueObject
             ? {
-                value: item.value,
-                label: item.label,
-              }
+              value: item.value,
+              label: item.label,
+            }
             : item.value
         "
         :disabled="item.disabled"
         :title="item.label"
-      >
-      </el-option>
+      />
     </el-select>
     <el-select
       v-else
@@ -35,8 +34,8 @@
       :size="configData.size || ''"
       :placeholder="configData.placeholder || ''"
       v-bind="propAttrs"
-      @change="handleSearch"
       popper-class="form-component-popper"
+      @change="handleSearch"
     >
       <el-option
         v-for="item in options"
@@ -45,51 +44,50 @@
         :value="
           configData.getValueObject
             ? {
-                value: item.value,
-                label: item.label,
-              }
+              value: item.value,
+              label: item.label,
+            }
             : item.value
         "
         :disabled="item.disabled"
         :title="item.label"
-      >
-      </el-option>
+      />
     </el-select>
   </div>
 </template>
 <script>
-import minxi from "./mixin";
-import loadmore from "../directive/elSelectLoadmore/loadmore";
+import minxi from './mixin'
+import loadmore from '../directive/elSelectLoadmore/loadmore'
 export default {
+  directives: {
+    'el-select-loadmore': loadmore
+  },
+  mixins: [minxi],
   data() {
     return {
       options: this.configData.defaultOptions || [],
       page: 1,
       size: this.configData.size || 30,
       totalPage: Infinity,
-      filterVal: "",
-    };
-  },
-  mixins: [minxi],
-  directives: {
-    "el-select-loadmore": loadmore,
+      filterVal: ''
+    }
   },
 
   computed: {
     propAttrs() {
-      let attrs = {};
+      let attrs = {}
       if (this.configData.clearable) {
         attrs = {
           ...attrs,
-          clearable: true,
-        };
+          clearable: true
+        }
       }
 
       if (this.configData.filterable) {
         attrs = {
           ...attrs,
-          filterable: true,
-        };
+          filterable: true
+        }
       }
       if (
         this.configData.filterable &&
@@ -99,104 +97,104 @@ export default {
         attrs = {
           ...attrs,
           // remote: true,
-          "filter-method": this.debounce(this.filterMethod),
-        };
+          'filter-method': this.debounce(this.filterMethod)
+        }
       }
       if (this.configData.multiple) {
         attrs = {
           ...attrs,
-          multiple: true,
-        };
+          multiple: true
+        }
       }
       if (this.configData.multiple && this.configData.multipleLimit) {
         attrs = {
           ...attrs,
-          "multiple-limit": this.configData.multipleLimit,
-        };
+          'multiple-limit': this.configData.multipleLimit
+        }
       }
       if (this.configData.multiple && this.configData.collapseTags) {
         attrs = {
           ...attrs,
-          "collapse-tags": true,
-        };
+          'collapse-tags': true
+        }
       }
-      return attrs;
-    },
+      return attrs
+    }
   },
   async created() {
     //   如果不能给初始值  那就传入一个方法去获取值
-    if(!this.configData.defaultOptions){
-      this.configData.defaultOptions=[]
+    if (!this.configData.defaultOptions) {
+      this.configData.defaultOptions = []
     }
     if (
-      this.configData.defaultOptions.length === 0&&this.configData.getInitData
+      this.configData.defaultOptions.length === 0 && this.configData.getInitData
     ) {
-      const res = await this.searchOptions();
+      const res = await this.searchOptions()
       if (res && res.data) {
-        this.options = res.data;
-        this.totalPage = res.totalPage;
+        this.options = res.data
+        this.totalPage = res.totalPage
       }
     }
   },
   methods: {
     // 下拉加载更多
     async loadMore() {
-      this.page++;
-      if (this.page > this.totalPage) return;
-      let res = await this.searchOptions();
-      this.options = [...this.options, ...res.data];
+      this.page++
+      if (this.page > this.totalPage) return
+      const res = await this.searchOptions()
+      this.options = [...this.options, ...res.data]
     },
     // 远程搜索带分页功能
     async filterMethod(query) {
-      this.filterVal = query;
-      this.page = 1;
-      let res = await this.searchOptions();
-      this.options = res.data;
-      this.totalPage = res.totalPage;
+      this.filterVal = query
+      this.page = 1
+      const res = await this.searchOptions()
+      this.options = res.data
+      this.totalPage = res.totalPage
     },
     // 远程搜索功能
     async searchOptions() {
       const formatData = this.configData.formatFormData
         ? this.configData.formatFormData
-        : (v) => v;
-      let data = {
+        : (v) => v
+      const data = {
         page: this.page,
-        searchValue: this.filterVal,
-      };
-      let res = await this.configData.getInitData(data);
-      return formatData(res);
+        searchValue: this.filterVal
+      }
+      const res = await this.configData.getInitData(data)
+      return formatData(res)
     },
     debounce(fn, delay = 500) {
-      let timer;
-      return function (...args) {
+      let timer
+      return function(...args) {
         if (timer) {
-          clearTimeout(timer);
+          clearTimeout(timer)
         }
         timer = setTimeout(() => {
-          fn.apply(this, args);
-        }, delay);
-      };
+          fn.apply(this, args)
+        }, delay)
+      }
     },
     // 重置搜索(替换通用mixin)
     async clearSearVal() {
-      this.searchVal = this.configData.defaultValue;
-      this.$emit("handleEventChange", {
-        [this.configData.propName]: this.configData.defaultValue,
-      });
+      this.searchVal = this.configData.defaultValue
+      this.$emit('handleEventChange', {
+        [this.configData.propName]: this.configData.defaultValue
+      })
       // 重置还原备选项
       if (
         this.configData.filterable &&
         this.configData.getInitData &&
         this.configData.remote
       ) {
-        this.page = 1;
-        this.filterVal = "";
-        let res = await this.searchOptions();
-        this.options = res.data;
+        this.page = 1
+        this.filterVal = ''
+        const res = await this.searchOptions()
+        this.options = res.data
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss">

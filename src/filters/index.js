@@ -66,3 +66,38 @@ export function toThousandFilter(num) {
 export function uppercaseFirst(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
+
+/*
+ *
+ *seconds  秒数
+ */
+// 传入时间戳计算时分秒
+export function timeResolution(seconds) {
+  var day = Math.floor(seconds / (24 * 3600))
+  var hour = Math.floor((seconds - day * 24 * 3600) / 3600)
+  var minutes = Math.floor((seconds - day * 24 * 3600 - hour * 3600) / 60)
+  var second = Math.floor(seconds % 60)
+  let result = ''
+  if (day > 0) {
+    result += day + '天'
+  }
+  if (hour > 0) {
+    result += hour + '小时'
+  } else if (hour === 0) {
+    result = result ? result + hour + '小时' : ''
+  }
+  if (minutes > 0) {
+    result += minutes + '分'
+  } else if (minutes === 0) {
+    result = result ? (result + minutes + '分') : ''
+  }
+  if (second >= 0) {
+    result += second + '秒'
+  }
+  return result
+}
+
+// 小数转成百分比
+export function transformDecimaltoPercent(val) {
+  return (+val * 100).toFixed(2)
+}
